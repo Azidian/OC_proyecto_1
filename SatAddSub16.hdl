@@ -12,7 +12,7 @@ CHIP SatAddSub16 {
 
     // Detección de overflow
     Xor(a=x[15], b=y[15], out=Restax_y);
-    Not(in=Restax_y, out=Igual); // 1 si signos iguales
+    Not(in=Restax_y, out=Igual); 
     Xor(a=sum[15], b=x[15], out=signoResta);
     And(a=Igual, b=signoResta, out=ovf);
 
