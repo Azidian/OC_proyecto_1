@@ -1,0 +1,18 @@
+CHIP SatAddSub16 {
+    IN x[16], y[16], op;
+    OUT out[16],ovf;
+
+    PARTS:
+    Add16(a=in[15], b=false, c=c15, sum=out[15], carry=ignore); 
+  
+
+    
+  
+
+
+    
+    
+}
+
+
+
