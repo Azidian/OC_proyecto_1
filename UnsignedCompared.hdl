@@ -1,0 +1,17 @@
+CHIP UnsignedCompare16 {
+    IN x[16], y[16];
+    OUT eq, gt, it;
+
+    PARTS:
+ //RESTO PARA SABER SON IGUALES
+    Not16(in=y, out=notY); //Invertido de y
+    Inc16(in=notY, out=Y_negativo); // Negativo de y
+    Add16(a=x, b=Y_negativo, out=iguales); //Los sumo para saber si son iguales
+
+    Or16(in=iguales, b=false, out=Resultado_iguales); //para ver si hay al menos un 1
+    Not(in=Resultado_iguales, out=eq); 
+
+    And(a=iguales[15], b=true, out=it); //COMPARO SI HAY UN 1 EN EL BIT PORQUE SI ME DA NEGATIVO, Y ES MAYOR A X
+  
+    Or(a=iguales[15],b=false, out=gt); // LO CONTRARIO PARA CUANDO X ES MAYOR A Y PORQUE SERÍA POSITIVO EL RESULTADO
+}
