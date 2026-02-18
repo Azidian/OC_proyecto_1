@@ -1,18 +1,24 @@
 CHIP SatAddSub16 {
     IN x[16], y[16], op;
-    OUT out[16],ovf;
+    OUT out[16], ovf;
 
     PARTS:
-    Add16(a=in[15], b=false, c=c15, sum=out[15], carry=ignore); 
-  
+    Not16(in=y, out=notY);
+    Inc16(in=notY, out=Y_negativo);
 
-    
-  
+    Mux16(a=y, b=Y_negativo, sel=op, out=Operando_signo);
 
+    Add16(a=x, b=Operando_signo, out=sum);
 
-    
-    
+    // Detección de overflow
+    Xor(a=x[15], b=y[15], out=Restax_y);
+    Not(in=Restax_y, out=Igual); // 1 si signos iguales
+    Xor(a=sum[15], b=x[15], out=signoResta);
+    And(a=Igual, b=signoResta, out=ovf);
+
+    Or16Way(value=true, out=negSat);   
+    Or16Way(value=false, out=posSat);  
+
+    Mux16(a=posSat, b=negSat, sel=sum[15], out=satVal);
+    Mux16(a=sum, b=satVal, sel=ovf, out=out);
 }
-
-
-
